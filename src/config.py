@@ -14,3 +14,4 @@ COLLECTION_NAME = 'pdf_pages'
 VECTOR_DIM = 128#fixed property of colqwen on how many dimensional vectors it can produce
 TOP_K = 3
 GEMINI_MODEL = 'gemini-3.5-flash'
+RERANK_CANDIDATES = 10
