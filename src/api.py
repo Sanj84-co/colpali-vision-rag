@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI,Depends,Header,HTTPException
+from fastapi import FastAPI,Depends,Header,HTTPException,BackgroundTasks
 from pydantic import BaseModel
 from src.graph import build_graph
 from src.vector_store import close_client
@@ -27,13 +27,15 @@ def query(request:QueryRequest)->dict:
     result = state.invoke({"question":request.question})
     logger.info(f"Received answer: {result['answer']}")
     return {"answer":result['answer'],"retrieved":result['retrieved']}
-@app.post("/ingest",dependencies=[Depends(verify_api_key)])
-def ingest()->dict:
+def run_ingest()->None:
     logger.info("Start of Ingestion")
     try:
         ingest_main([])
         logger.info("Finished Ingestion")
-        return {"status":"done"}
     except SystemExit:
         logger.warning("No PDFs found")
-        return {"status":"error","message":"No PDFs found "}
+@app.post("/ingest",dependencies=[Depends(verify_api_key)])
+def ingest(background_tasks:BackgroundTasks)->dict:
+    background_tasks.add_task(run_ingest)
+    logger.info("Ingestion queued")
+    return {"status":"started"}
