@@ -25,3 +25,24 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: PYTHONPATH=. uv run pytest -v
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push clean snapshot to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git lfs install
+          git lfs track "*.pdf"
+          git add .gitattributes
+          git checkout --orphan deploy-snapshot
+          git add -A
+          git commit -m "Deploy snapshot from ${{ github.sha }}"
+          git push --force https://Sanj23:$HF_TOKEN@huggingface.co/spaces/Sanj23/Colpali-Vision-RAG deploy-snapshot:main
