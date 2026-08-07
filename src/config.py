@@ -15,3 +15,4 @@ VECTOR_DIM = 128#fixed property of colqwen on how many dimensional vectors it ca
 TOP_K = 3
 GEMINI_MODEL = 'gemini-3.5-flash'
 RERANK_CANDIDATES = 10
+API_KEY = os.getenv('API_KEY')
