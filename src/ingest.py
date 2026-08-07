@@ -22,11 +22,11 @@ def main(paths:list[str]):#if pdfs is truthy then it build path and adds if not 
         sys.exit()
     ensure_collection(reset=True)
     counter = 0
-    try:
-        for pdf in pdfs:
-            counter = ingest_pdf(pdf,counter)
-    finally:
-        close_client()
+    for pdf in pdfs:
+        counter = ingest_pdf(pdf,counter)
     print(f"Done. Indexed {counter} pages into Qdrant.")
 if __name__=="__main__":
-    main(sys.argv[1:])
+    try:
+        main(sys.argv[1:])
+    finally:
+        close_client()

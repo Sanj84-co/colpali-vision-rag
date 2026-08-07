@@ -1,13 +1,20 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI,Depends,Header,HTTPException
 from pydantic import BaseModel
 from src.graph import build_graph
 from src.vector_store import close_client
 from src.ingest import main as ingest_main
 from src.config import API_KEY
-import logging 
+import logging
 logging.basicConfig(level=logging.INFO,force=True)
 logger = logging.getLogger(__name__)
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    close_client()
+
+app = FastAPI(lifespan=lifespan)
 class QueryRequest(BaseModel):
     question:str
 def verify_api_key(x_api_key:str = Header(...))->None:
@@ -17,10 +24,7 @@ def verify_api_key(x_api_key:str = Header(...))->None:
 def query(request:QueryRequest)->dict:
     logger.info(f"Received question: {request.question}")
     state = build_graph()
-    try:
-        result = state.invoke({"question":request.question})
-    finally:
-        close_client()
+    result = state.invoke({"question":request.question})
     logger.info(f"Received answer: {result['answer']}")
     return {"answer":result['answer'],"retrieved":result['retrieved']}
 @app.post("/ingest",dependencies=[Depends(verify_api_key)])

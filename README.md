@@ -21,14 +21,16 @@ question -> ColQwen2 query embedding -> Qdrant search (top-10) -> Gemini rerank 
 
 ## Evaluation
 
-Measured on a 15-question labeled set spanning a synthetic chart, a real SEC 10-K filing, and a real Federal Reserve economic report:
+Measured on a 30-question labeled set spanning a synthetic chart, a real SEC 10-K filing (HEICO Corporation), and a real Federal Reserve economic report, across a 58-page collection:
 
 | | Accuracy |
 |---|---|
-| Raw retrieval (no reranking) | 33% |
-| With reranking | 73% |
+| Raw retrieval (no reranking) | 17% |
+| With reranking (top-10 candidates) | 43% |
 
-Reranking recovered 6 of 10 questions raw retrieval got wrong, at the cost of extra Gemini API calls per query.
+Reranking recovers roughly a third of retrieval's failures, but a clear pattern remains: **the system performs well on prominent, salient visual answers** (bar charts, clearly labeled headings, single standout numbers) **but struggles on precise cell-level lookups inside dense multi-column tables**. Diagnosing several failures directly showed the correct page ranking 19th-39th out of 58 in raw embedding similarity — far outside any practically-sized candidate pool. Widening the rerank candidate pool to nearly the full collection (50 of 58) recovered 2 of 3 tested cases, confirming the diagnosis, but at a real cost/latency tradeoff that doesn't scale to larger collections.
+
+**Root cause**: ColPali's whole-page multivector embedding captures what a page is broadly about, but doesn't reliably localize one specific number buried among dozens of similar ones on a dense page. A real fix would mean embedding below the page level (splitting dense pages into sub-regions before embedding), not a config tweak — noted as a concrete next step rather than solved here.
 
 ## Running locally
 
