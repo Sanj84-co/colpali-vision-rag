@@ -22,6 +22,21 @@ GROUND_TRUTH = [
     ("What is the 10-year annual GDP growth rate as of Q2 2026?", "fed_sample.pdf", 6, "2.4"),
     ("What was the year-over-year retail sales percent change in June?", "fed_sample.pdf", 7, "6.7"),
     ("What was the June year-over-year change in real disposable personal income?", "fed_sample.pdf", 8, "2.5"),
+    ("What was the Q2 revenue?", "sales_report.pdf", 1, "150"),
+    ("What was North region's revenue?", "sales_report.pdf", 2, "240"),
+    ("What was West region's growth percent?", "sales_report.pdf", 2, "15"),
+    ("What was the aggregate market value of common equity held by non-affiliates?", "messy_sample.pdf", 4, "28,298,175,000"),
+    ("How many shares of Common Stock (not Class A) are outstanding?", "messy_sample.pdf", 4, "55,142,805"),
+    ("On what page does Item 8 Financial Statements and Supplementary Data begin, according to the table of contents?", "messy_sample.pdf", 5, "50"),
+    ("What percentage of net sales did the Electronic Technologies Group account for in fiscal 2025?", "messy_sample.pdf", 7, "30"),
+    ("What were HEICO's net sales in fiscal 1990?", "messy_sample.pdf", 7, "26.2"),
+    ("According to the table of contents, what page is Retail Sales on?", "fed_sample.pdf", 2, "7"),
+    ("What was the Q4 2025 change in Nonresidential Fixed Investment?", "fed_sample.pdf", 4, "2.4"),
+    ("What was the Q2 2026 change in Exports of Goods and Services?", "fed_sample.pdf", 4, "4.5"),
+    ("What was the April month-over-month change in total retail sales?", "fed_sample.pdf", 7, "0.7"),
+    ("What was the June month-over-month change in Real Disposable Personal Income?", "fed_sample.pdf", 8, "0.3"),
+    ("What was the May month-over-month change in Consumer Spending Expenditures?", "fed_sample.pdf", 8, "0.4"),
+    ("What was the Q3 2025 change in Real Investment in Equipment?", "fed_sample.pdf", 4, "5.2"),
 ]
 
 
