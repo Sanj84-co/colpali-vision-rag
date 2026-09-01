@@ -10,7 +10,7 @@ app_port: 7860
 # Colpali Vision RAG
 
 A vision-based RAG system that answers questions about PDFs **without OCR or text extraction**. Pages are rendered as images, embedded with ColPali (ColQwen2) as multivectors, retrieved via MAX_SIM in Qdrant, reranked by Gemini, and answered by Gemini reading the actual page images. Charts and scanned documents are searchable even though no text is ever extracted from them.
-
+Full writeup: [https://medium.com/@sansenus123/building-a-vision-based-rag-pipeline-what-i-learned-from-a-17-43-retrieval-improvement-979a0491c374?postPublishedType=initial]
 ## Architecture
 
 ```
